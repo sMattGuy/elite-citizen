@@ -2,6 +2,7 @@ import {newSeed, rndDouble, rndInt} from './random.js';
 
 let doneQuests = [];
 let openQuests = [];
+let questablePlanets = [];
 
 class Planet{
 	distance = 0;

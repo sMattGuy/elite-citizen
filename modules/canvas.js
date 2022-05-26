@@ -1,4 +1,4 @@
-import {Planet, SolarSystem} from './planets.js';
+import {Planet, SolarSystem, openQuests} from './planets.js';
 
 let hudImg = new Image();
 hudImg.src = '../imgs/hud.png';
@@ -39,6 +39,21 @@ function draw(galaxyOffset, moving){
 					ctx.beginPath();
 					ctx.arc(screenSector.x*16+8, screenSector.y*16+8, (star.diameter/8)+5, 0, 2*Math.PI, false);
 					ctx.stroke();
+				}
+			}
+			for(let i=0;i<openQuests.length;i++){
+				if(openQuests[i].x == seed1 && openQuests[i].y == seed2){
+					let xPos = screenSector.x*16+8;
+					let yPos = screenSector.y*16+8;
+					ctx.strokeStyle = 'red';
+					ctx.beginPath();
+					ctx.moveTo(xPos, yPos);
+					ctx.lineTo(xPos+20,yPos-20);
+					ctx.lineTo(xPos+20+35,yPos-20);
+					ctx.stroke();
+					ctx.fillStyle = 'red';
+					ctx.font = "8px conthrax";
+					ctx.fillText(`COMPLETE QUEST`,xPos+20,yPos-22);
 				}
 			}
 		}

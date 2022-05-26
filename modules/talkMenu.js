@@ -1,4 +1,4 @@
-import {Planet, SolarSystem} from './planets.js';
+import {Planet, SolarSystem, openQuests} from './planets.js';
 import {rndInt} from './random.js';
 // Make the DIV element draggable:
 dragTalkElement(document.getElementById("talkMenu"));
@@ -45,26 +45,25 @@ function updateTalkBox(galaxyOffset, selectedPlanet){
 	let aligntext = document.getElementById("alignmentText");
 	let planetchoice = document.getElementById("planetChoice");
 	let planetFound = false;
-	let checkSpaceX = -100;
-	let checkSpaceY = 100;
+
 	while(!planetFound){
-		let possibleX = Math.floor(Math.random() * (checkSpaceX,-checkSpaceX))+checkSpaceX;
-		let possibleY = Math.floor(Math.random() * (checkSpaceY,-checkSpaceY))+checkSpaceY;
+		let offSetX = (Math.floor(Math.random()*100) - 100 + galaxyOffset.x);
+		let offSetY = (Math.floor(Math.random()*100) - 100 + galaxyOffset.y);
 		
-		let checkX = possibleX + 50;
-		let checkY = possibleY + 50;
-		let star = new SolarSystem(checkX, checkY, true);
+		let star = new SolarSystem(offSetX, offSetY, true);
 		if(star.starExists){
 			if(star.planets.length != 0){
+				openQuests.push({'x':offSetX, 'y':offSetY});
+				if(openQuests.length > 10)
+					openQuests.shift();
 				planetFound = true;
 				let selectedPlanet = Math.floor(Math.random()*star.planets.length);
-				aligntext.innerHTML = `X Alignment ${checkX} and Y Alignment ${checkY}.`;
+				aligntext.innerHTML = `X Alignment ${offSetX-25} and Y Alignment ${offSetY-25}.`;
 				planetchoice.innerHTML = `${selectedPlanet+1} planet from the star.`;
 				break;
 			}
 		}
-		checkSpaceX = checkSpaceX + Math.floor(Math.random() * 2)-1;
-		checkSpaceY = checkSpaceY + Math.floor(Math.random() * 2)-1;
+
 	}
 	document.getElementById("talkMenu").style.display = "block";
 }
